@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.GridPane?>
+<GridPane fx:controller="sample.PaneController"
+          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+
+
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="430.0" prefWidth="700.0" style="-fx-background-color: #FFF;" VBox.vgrow="ALWAYS">
+         <children>
+            <AnchorPane layoutX="246.0" prefHeight="400.0" prefWidth="394.0" style="-fx-background-color: #FFF;" visible="false">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <children>
+                  <Pane fx:id="pane_vun" prefHeight="410.0" prefWidth="404.0" style="-fx-background-color: #23CE6B;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Pane fx:id="pane_read" layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="394.0" style="-fx-background-color: #272D2D;" />
+                  <Pane fx:id="pane_qualit" layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="394.0" style="-fx-background-color: #0055B9;" />
+                  <Pane fx:id="pane_extra1" layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="394.0" style="-fx-background-color: #F6F8FF;" />
+                  <Pane fx:id="pane_extra2" layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="394.0" style="-fx-background-color: #2B3A67;" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="402.0" prefWidth="246.0" style="-fx-background-color: #F0F7FF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <AnchorPane layoutX="-4.0" layoutY="-3.0" prefHeight="412.0" prefWidth="46.0" style="-fx-background-color: #FFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </AnchorPane>
+                  <JFXButton fx:id="btn_vun" alignment="BASELINE_LEFT" graphicTextGap="35.0" layoutY="47.0" prefHeight="58.0" prefWidth="246.0" text="Podatności kodu">
+                     <graphic>
+                        <FontAwesomeIconView fill="#2279bf" glyphName="CHECK" size="15.0" />
+                     </graphic></JFXButton>
+                  <JFXButton fx:id="btn_readabilty" alignment="BASELINE_LEFT" graphicTextGap="35.0" layoutY="105.0" onAction="#handleButtonAction" prefHeight="58.0" prefWidth="246.0" text="Czytelność kodu">
+                     <graphic>
+                        <FontAwesomeIconView fill="#2279bf" glyphName="CIRCLE_ALT_NOTCH" size="15.0" />
+                     </graphic></JFXButton>
+                  <JFXButton fx:id="btn_quality" alignment="BASELINE_LEFT" graphicTextGap="35.0" layoutY="163.0" onAction="#handleButtonAction" prefHeight="58.0" prefWidth="246.0" text="Jakość kodu">
+                     <graphic>
+                        <FontAwesomeIconView fill="#2279bf" glyphName="CHECK_CIRCLE" size="15.0" />
+                     </graphic></JFXButton>
+                  <JFXButton fx:id="btn_extra1" alignment="BASELINE_LEFT" graphicTextGap="35.0" layoutX="4.0" layoutY="221.0" onAction="#handleButtonAction" prefHeight="58.0" prefWidth="246.0" text="Dodatkowe 1">
+                     <graphic>
+                        <FontAwesomeIconView fill="#2279bf" glyphName="PLUS_CIRCLE" size="15.0" text="" />
+                     </graphic></JFXButton>
+                  <JFXButton fx:id="btn_extra2" alignment="BASELINE_LEFT" graphicTextGap="35.0" layoutX="4.0" layoutY="279.0" onAction="#handleButtonAction" prefHeight="58.0" prefWidth="246.0" text="Dodatkowe 2">
+                     <graphic>
+                        <FontAwesomeIconView fill="#2279bf" glyphName="PLUS" size="15.0" />
+                     </graphic></JFXButton>
+               </children>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </AnchorPane>
+         </children>
+    </AnchorPane>
+  </children>
+</VBox>
+</GridPane>
