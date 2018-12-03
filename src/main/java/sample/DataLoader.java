@@ -8,7 +8,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
@@ -23,7 +22,8 @@ public class DataLoader {
      * @throws IOException
      * @throws JSONException
      */
-    public void loadHttpDate(String webPage) throws IOException, JSONException {
+    public HashMap<String, HashMap<Integer, Boolean>> loadHttpDate(String webPage) throws IOException, JSONException {
+        HashMap<String, HashMap<Integer, Boolean>> result = new HashMap<String, HashMap<Integer, Boolean>>();
         URL url = new URL(webPage);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
@@ -38,10 +38,10 @@ public class DataLoader {
                 response.append(inputLine);
             }
             in.close();
-            readJson(response);
+            result.putAll(readJson(response));
         }
 
-
+    return result;
     }
 
     /**
@@ -60,16 +60,23 @@ public class DataLoader {
         }
     }
 
-    private void readJson(StringBuffer buffer) throws JSONException {
+    /**
+     * Odczytuje wartości z pobranego JSONA
+     * @param buffer
+     * @throws JSONException
+     */
+    private HashMap<String, HashMap<Integer, Boolean>> readJson(StringBuffer buffer) throws JSONException {
+        HashMap<String, HashMap<Integer, Boolean>> result = new HashMap<String, HashMap<Integer, Boolean>>();
         JSONObject myRespone = new JSONObject(buffer.toString());
         String component = myRespone.getString("component");
         myRespone = new JSONObject(component);
         JSONArray jsonArray = myRespone.getJSONArray("measures");
         for(int i= 0; i<jsonArray.length(); i++){
             JSONObject singleJson = jsonArray.getJSONObject(i);
-            getSingleMesure(singleJson);
+            result.putAll(getSingleMesure(singleJson));
 
         }
+        return result;
 
     }
 
@@ -79,9 +86,11 @@ public class DataLoader {
      */
     private HashMap<String, HashMap<Integer, Boolean>> getSingleMesure(JSONObject jsonObject) throws JSONException {
         HashMap<Integer, Boolean> valuesMap = new HashMap<Integer, Boolean>();
+        boolean bestValue = false;
         String metric = jsonObject.getString("metric");
         int value = jsonObject.getInt("value");
-        boolean bestValue = jsonObject.getBoolean("bestValue");
+        if (jsonObject.toString().contains("bestValue"))
+            bestValue = jsonObject.getBoolean("bestValue");
         valuesMap.put(value,bestValue);
         mesuresResult.put(metric,valuesMap);
         return mesuresResult;
