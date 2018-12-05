@@ -6,7 +6,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import org.json.JSONException;
@@ -26,9 +28,12 @@ public class PaneController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
     }
     @FXML
-    private Label remediationLabel;
+    private Label remediationLabel, quailityLabel;
+    @FXML
+    private BarChart quailityBar;
     @FXML
     private PieChart remediationChart;
+
 
     @FXML
     private void handleButtonAction(ActionEvent event){
@@ -49,7 +54,10 @@ public class PaneController implements Initializable {
         else if (event.getSource()==btn_readabilty){
             try {
                 //tutaj
-                HashMap<String, HashMap<Integer, Boolean>> readResult = dl.loadHttpDate("http://localhost:9000/api/measures/component?componentKey=my%3Aproject&metricKeys=functions,lines,classes");
+                HashMap<String, HashMap<Integer, Boolean>> readResult = dl.loadHttpDate("http://localhost:9000/api/measures/component?componentKey=my%3Aproject&metricKeys=functions,lines,classes,code_smells,comment_lines");
+            DataCalculator dataCalculator = new DataCalculator();
+            dataCalculator.caluateCleanCode(readResult);
+
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
@@ -59,7 +67,15 @@ public class PaneController implements Initializable {
         }
         else if (event.getSource()==btn_quality){
             try {
+                ChartsDrawer chartsDrawer  = new ChartsDrawer();
+                quailityBar.getData().clear();
+                XYChart.Series set1 = new XYChart.Series();
                 HashMap<String, HashMap<Integer, Boolean>> qualityResult = dl.loadHttpDate("http://localhost:9000/api/measures/component?componentKey=my%3Aproject&metricKeys=security_rating,reliability_rating,code_smells,duplicated_lines_density");
+                DataCalculator dataCalculator = new DataCalculator();
+                String quailityResult = dataCalculator.codeQualityRateing(qualityResult);
+                quailityLabel.setText(quailityResult);
+                XYChart.Series series = chartsDrawer.fillCodeQualitiBar(qualityResult);
+                quailityBar.getData().addAll(series);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -98,6 +114,8 @@ public class PaneController implements Initializable {
             pane_extra2.toFront();
         }
     }
+
+
 
 
 }
