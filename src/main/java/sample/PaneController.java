@@ -28,11 +28,11 @@ public class PaneController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
     }
     @FXML
-    private Label remediationLabel, quailityLabel;
+    private Label remediationLabel, quailityLabel,cleancodeLabel;
     @FXML
-    private BarChart quailityBar;
+    private BarChart quailityBar,codeQualityBar;
     @FXML
-    private PieChart remediationChart;
+    private PieChart remediationChart,cleancodePieChart;
 
 
     @FXML
@@ -56,7 +56,20 @@ public class PaneController implements Initializable {
                 //tutaj
                 HashMap<String, HashMap<Integer, Boolean>> readResult = dl.loadHttpDate("http://localhost:9000/api/measures/component?componentKey=my%3Aproject&metricKeys=functions,lines,classes,code_smells,comment_lines");
             DataCalculator dataCalculator = new DataCalculator();
-            dataCalculator.caluateCleanCode(readResult);
+            ChartsDrawer cl = new ChartsDrawer();
+            codeQualityBar.getData().clear();
+                String cleanCodeRateing = dataCalculator.caluateCleanCode(readResult);
+                cleancodeLabel.setText(cleanCodeRateing);
+                cleancodePieChart.setAnimated(true);
+                cleancodePieChart.setLabelsVisible(true);
+                cleancodePieChart.setClockwise(true);
+                ObservableList<PieChart.Data> data =FXCollections.observableArrayList();
+                 data = cl.fillCleanCodeChart(readResult);
+                XYChart.Series series = cl.drawCleanCodeBar(readResult);
+                series.setName("Uśredniona liczba pomiarów");
+                codeQualityBar.getData().add(series);
+                codeQualityBar.setAnimated(true);
+                cleancodePieChart.setData(data);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -75,6 +88,7 @@ public class PaneController implements Initializable {
                 String quailityResult = dataCalculator.codeQualityRateing(qualityResult);
                 quailityLabel.setText(quailityResult);
                 XYChart.Series series = chartsDrawer.fillCodeQualitiBar(qualityResult);
+                series.setName("Oceny");
                 quailityBar.getData().addAll(series);
 
             } catch (IOException e) {

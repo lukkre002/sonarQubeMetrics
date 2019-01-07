@@ -60,6 +60,19 @@ public class DataCalculator {
             return "E";
         }
     }
+    public String generateResult(Integer result){
+        if (result == 1) {
+            return "A";
+        } else if (result == 2) {
+            return "B";
+        } else if (result == 3) {
+            return "C";
+        } else if (result == 4) {
+            return "D";
+        } else {
+            return "E";
+        }
+    }
 
     public Integer calculateDuplicatesRateing(Integer singleValue) {
         Integer result = 0;
@@ -93,12 +106,12 @@ public class DataCalculator {
         return result;
     }
 
-    public Integer caluateCleanCode(HashMap<String, HashMap<Integer, Boolean>> cleanCodeMap) {
+    public String caluateCleanCode(HashMap<String, HashMap<Integer, Boolean>> cleanCodeMap) {
         Integer codeSmellsRate = 0;
-        Integer numOfFunctions = 0;
-        Integer numOfClasses = 0;
-        Integer numOfLine = 0;
-        Integer numOfComments = 0;
+        Integer numOfFunctions = 0; //alpha
+        Integer numOfClasses = 0;//beta
+        Integer numOfLine = 0;//gamma
+        Integer numOfComments = 0;//omega
         Set<String> metricsNames = cleanCodeMap.keySet();
         Iterator<String> metricNamesIt = metricsNames.iterator();
         while (metricNamesIt.hasNext()) {
@@ -129,9 +142,13 @@ public class DataCalculator {
         Integer rateingLinesPerClass = calculateRateingLinesPerClass(linePerClass);
         Integer rateingCommentsByClass = calculateRateingCommentsByClass(commentsPerClass);
         Integer rateingMethodsPerClass = calculateRateingMethodsPerClass(methodsPerClass);
+//        Integer numOfFunctions = 0; //alpha
+//        Integer numOfClasses = 0;//beta
+//        Integer numOfLine = 0;//gamma
+//        Integer numOfComments = 0;//omega
 
-
-        return (rateingCommentsByClass + rateingLinesPerClass + rateingMethodsPerClass + rateingLinesPerMethods) / 4;
+         Integer vau =(rateingCommentsByClass + rateingLinesPerClass + rateingMethodsPerClass + rateingLinesPerMethods+codeSmellsRate) / 5;
+        return generateResult(vau);
     }
 
     public Integer calculateMethodsPerClass(Integer numOfClass, Integer numOfFunc) {
@@ -144,6 +161,9 @@ public class DataCalculator {
 
     public Integer calculateLinesPerClass(Integer numOfClasses, Integer numOfLines) {
         return numOfLines / numOfClasses;
+    }
+    public Integer calculateCommentsPerClass(Integer numOfClasses, Integer numberOfComments) {
+        return numberOfComments / numOfClasses;
     }
 
     public Integer calculatePercantageCommentsPerClass(Integer numOfClasses, Integer numberOfComments) {
@@ -185,7 +205,7 @@ public class DataCalculator {
         } else if (comments >= 25 && comments < 30) {
             return 2;
         } else if (comments >= 30 && comments < 40) {
-            return 4;
+            return 3;
         } else {
             return 5;
         }
